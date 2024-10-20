@@ -19,10 +19,4 @@ const server = new ApolloServer({
   introspection: true, // Make sure introspection is enabled
 });
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export default server.createHandler({ path: '/api/graphql' });
