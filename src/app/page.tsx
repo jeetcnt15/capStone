@@ -12,7 +12,7 @@ import SimpleFooter from './list/page';
 
 const HomePage: React.FC = () => {
   const { page, setPage } = useStore(); // Ensure setPage is included
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<[]>([]);
   const productsPerPage = 6;
 
   useEffect(() => {

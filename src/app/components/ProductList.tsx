@@ -21,9 +21,34 @@ const GET_PRODUCTS = gql`
       }
     }
 `;
+export interface Product {
+  sys: {
+    id: string;
+  };
+  name: string;
+  price: number;
+  description: string;
+  featuredProductImage: {
+    url: string;
+  };
+}
 
-const ProductList = ({data}) => {
-  const { page, setProducts } = useStore();
+export interface PageProductCollection {
+  items: Product[];
+}
+
+export interface ProductListData {
+  map(arg0: (product: { sys: { id: Key | null | undefined; }; fields: { featuredProductImage: { fields: { file: { url: string | undefined; }; }; }; name: string | number | bigint | boolean | Promise<AwaitedReactNode> | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined; price: string | number | bigint | boolean | ReactPortal | Promise<AwaitedReactNode> | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined; description: string | number | bigint | boolean | ReactPortal | Promise<AwaitedReactNode> | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined; }; }) => import("react").JSX.Element): ReactNode;
+  pageProductCollection: PageProductCollection;
+}
+
+
+interface ProductListProps {
+  data: ProductListData; 
+}
+
+const ProductList: React.FC<ProductListProps> = ({ data }) => {
+  const { page } = useStore();
   const productsPerPage = 10; 
   const skip = (page - 1) * productsPerPage;
   console.log(data)
@@ -48,7 +73,7 @@ const ProductList = ({data}) => {
     <div className="container mx-auto p-4">
     <h2 className="text-xl font-semibold mb-4">Product List</h2>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {data.map((product) => (
+      {data.map((product: { sys: { id: Key | null | undefined; }; fields: { featuredProductImage: { fields: { file: { url: string | undefined; }; }; }; name: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | Promise<AwaitedReactNode> | null | undefined; price: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; description: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; }; }) => (
         <div key={product.sys.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
           <img 
             src={product.fields.featuredProductImage.fields.file.url} 
