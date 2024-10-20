@@ -77,7 +77,7 @@ const ProductList: React.FC<ProductListProps> = ({ data }) => {
         <div key={product.sys.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
           <img 
             src={product.fields.featuredProductImage.fields.file.url} 
-            alt={product.fields.name} 
+            alt={typeof product.fields.name === 'string' ? product.fields.name : 'Product Image'} // Ensure it's a string 
             className="w-full h-96 object-cover"
           />
           <div className="p-4">
