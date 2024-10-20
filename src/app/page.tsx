@@ -8,11 +8,12 @@ import { createClient } from 'contentful';
 import { useState, useEffect } from 'react';
 import './globals.css';  
 import LandingPage from './home/page';
+import SimpleFooter from './list/page';
 
 const HomePage: React.FC = () => {
   const { page, setPage } = useStore(); // Ensure setPage is included
   const [data, setData] = useState<any[]>([]);
-  const productsPerPage = 3;
+  const productsPerPage = 6;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +48,7 @@ const HomePage: React.FC = () => {
           currentPage={page} 
           onPageChange={setPage} // Pass the setPage function
         />
+        <SimpleFooter/>
       </main>
     </ApolloProvider>
   );
