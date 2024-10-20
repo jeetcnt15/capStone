@@ -1,18 +1,19 @@
 'use client';
-import { ApolloProvider, gql } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
 import useStore from './store/useStore';
 import ProductList from './components/ProductList';
 import Pagination from './components/Pagination';
 import client from '../app/lib/apolloClient';
 import { createClient } from 'contentful';
 import { useState, useEffect } from 'react';
-import './globals.css';  
+import './globals.css';
 import LandingPage from './home/page';
 import SimpleFooter from './list/page';
+import { Product, ProductFields } from '../types'; // Adjust the path as necessary
 
 const HomePage: React.FC = () => {
-  const { page, setPage } = useStore(); // Ensure setPage is included
-  const [data, setData] = useState<[]>([]);
+  const { page, setPage } = useStore();
+  const [data, setData] = useState<Product[]>([]); // Use the defined type for data
   const productsPerPage = 6;
 
   useEffect(() => {
@@ -21,10 +22,19 @@ const HomePage: React.FC = () => {
         space: 'sq0njrjano6y',
         accessToken: 'oqp1AadL0wjbRlA5kISoAuoNz3b2M87CAzUhFj3X3QU',
       });
-
-      const res = await client.getEntries({ content_type: 'pageProduct', limit: 100 }); // Fetch more entries
-      setData(res.items);
-      console.log(data,"DATA")
+    
+      try {
+        const res = await client.getEntries({
+          content_type: 'pageProduct',
+          limit: 100,
+        });
+    
+        // Now we can directly use res.items as Product[]
+        setData(res.items as unknown as Product[]); // Use type assertion here if necessary
+        console.log(res.items, "DATA");
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
     fetchData();
@@ -32,7 +42,7 @@ const HomePage: React.FC = () => {
 
   const totalProducts = data.length;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
-  
+
   // Calculate the current products to display based on the current page
   const startIndex = (page - 1) * productsPerPage;
   const currentProducts = data.slice(startIndex, startIndex + productsPerPage);
@@ -41,20 +51,21 @@ const HomePage: React.FC = () => {
     <ApolloProvider client={client}>
       <main className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">E-Commerce Products</h1>
-        <LandingPage/>
+        <LandingPage />
         <ProductList data={currentProducts} />
         <Pagination 
           totalPages={totalPages} 
           currentPage={page} 
-          onPageChange={setPage} // Pass the setPage function
+          onPageChange={setPage} 
         />
-        <SimpleFooter/>
+        <SimpleFooter />
       </main>
     </ApolloProvider>
   );
 };
 
 export default HomePage;
+
 
 
 

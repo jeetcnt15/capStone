@@ -43,7 +43,7 @@ export interface ProductListData {
 }
 
 
-interface ProductListProps {
+export interface ProductListProps {
   data: ProductListData; 
 }
 
