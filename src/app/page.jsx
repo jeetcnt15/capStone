@@ -3,7 +3,7 @@ import { ApolloProvider } from '@apollo/client';
 import useStore from './store/useStore';
 import ProductList from './components/ProductList';
 import Pagination from './components/Pagination';
-import client from '../app/lib/apolloClient';
+import client from './lib/apolloClient';
 import { createClient } from 'contentful';
 import { useState, useEffect } from 'react';
 import './globals.css';
@@ -11,9 +11,9 @@ import LandingPage from './home/page';
 import SimpleFooter from './list/page';
 import { Product, ProductFields } from '../types'; // Adjust the path as necessary
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   const { page, setPage } = useStore();
-  const [data, setData] = useState<Product[]>([]); // Use the defined type for data
+  const [data, setData] = useState([]); // Use the defined type for data
   const productsPerPage = 6;
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const HomePage: React.FC = () => {
         });
     
         // Now we can directly use res.items as Product[]
-        setData(res.items as unknown as Product[]); // Use type assertion here if necessary
+        setData(res.items); // Use type assertion here if necessary
         console.log(res.items, "DATA");
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -46,6 +46,7 @@ const HomePage: React.FC = () => {
   // Calculate the current products to display based on the current page
   const startIndex = (page - 1) * productsPerPage;
   const currentProducts = data.slice(startIndex, startIndex + productsPerPage);
+ 
 
   return (
     <ApolloProvider client={client}>

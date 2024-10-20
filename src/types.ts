@@ -1,4 +1,4 @@
-// src/types.ts (or wherever you prefer)
+// src/types.ts
 export interface ProductImage {
     fields: {
       file: {
@@ -21,7 +21,12 @@ export interface ProductImage {
     fields: ProductFields;
   }
   
+  // Define the expected structure for ProductListData
+  export interface PageProductCollection {
+    items: Product[]; // Products collection
+  }
+  
   export interface ProductListData {
-    data: Product[];
+    pageProductCollection: PageProductCollection; // Contains items array of products
   }
   
