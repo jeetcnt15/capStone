@@ -35,7 +35,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "src/app/page.jsx"  ],
+, "src/app/page.jsx", "src/env.mts", "src/env.mts"  ],
   "exclude": [
     "node_modules"
   ]
